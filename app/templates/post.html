@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mt-5 mb-2">{{ post.title }}</h1>
+<div class="date">Опубликовано {{ post.date.strftime('%d.%m.%Y') }}.</div>
+<div class="author mb-3">Автор: {{ post.author }}</div>
+<img class="post-image" src="{{ url_for('static', filename='images/' + post.image_id) }}" alt="Card image cap">
+<div class="post mt-3">
+    {{ post.text }}
+</div>
+
+<div class="card mt-5 mb-5" style="padding: 20px">
+    <form class="">
+        <div class="form-group mb-3">
+          <label for="exampleFormControlTextarea1 mb-3">Оставьте комментарий</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" name="comment" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+
+<div class="comments mt-5">
+    {% for comment in comments %}
+    
+    <div class="d-flex mb-5">
+        <div class="flex-shrink-0">
+            <img src="https://via.placeholder.com/100x100?text={{'+'.join(comment.author.split(' '))}}" class="rounded-circle" alt="Sample Image">
+        </div>
+        <div class="flex-grow-1 ms-3">
+            <h5>{{comment.author}}</h5>
+            <p>{{comment.text}}</p>
+
+            {% for reply in comment.replies %}
+            <div class="d-flex mt-4">
+                <div class="flex-shrink-0">
+                    <img src="https://via.placeholder.com/100x100?text={{'+'.join(reply.author.split(' '))}}" class="rounded-circle" alt="Sample Image">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>{{reply.author}}</h5>
+                    <p>{{reply.text}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
